@@ -7,20 +7,20 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.learn.spring.rest.SpringRestDemo.dao.impl.EmployeeDaoImpl;
 import com.learn.spring.rest.SpringRestDemo.pojo.Employee;
+import com.learn.spring.rest.SpringRestDemo.service.EmployeeService;
 
 @RestController
 @RequestMapping("/api")
 public class EmployeeRestController {
 	
-	private EmployeeDaoImpl employeeDaoImpl;
+	private EmployeeService employeeService;
 	
 	
 	@Autowired
-	public EmployeeRestController(EmployeeDaoImpl employeeDaoImpl) {
+	public EmployeeRestController(EmployeeService employeeService) {
 		super();
-		this.employeeDaoImpl = employeeDaoImpl;
+		this.employeeService = employeeService;
 	}
 
 	public EmployeeRestController() {
@@ -30,7 +30,7 @@ public class EmployeeRestController {
 
 	@GetMapping("/employees")
 	public List<Employee> getEmployees() {
-		return employeeDaoImpl.getAllEmployee();
+		return employeeService.getAllEmployee();
 		
 	}
 
