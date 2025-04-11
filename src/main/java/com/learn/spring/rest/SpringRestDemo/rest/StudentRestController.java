@@ -18,7 +18,7 @@ import com.learn.spring.rest.SpringRestDemo.pojo.Student;
 import jakarta.annotation.PostConstruct;
 
 @RestController
-@RequestMapping("api")
+@RequestMapping("/api")
 public class StudentRestController {
 	List<Student> studentList = null;
 	
