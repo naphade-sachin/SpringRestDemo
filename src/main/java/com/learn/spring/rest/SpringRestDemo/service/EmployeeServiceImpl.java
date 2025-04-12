@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 import com.learn.spring.rest.SpringRestDemo.dao.impl.EmployeeDaoImpl;
 import com.learn.spring.rest.SpringRestDemo.pojo.Employee;
 
+import jakarta.transaction.Transactional;
+
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
 	
@@ -30,19 +32,20 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 	@Override
 	public Employee getEmployee(int employeeId) {
-		// TODO Auto-generated method stub
-		return null;
+		//get a single Employee based on Id
+		return employeeDaoImpl.getEmployee(employeeId);
 	}
 
 	@Override
-	public void updateEmployee(int employeeId) {
-		// TODO Auto-generated method stub
-
+	@Transactional
+	public Employee updateEmployee(Employee employee) {
+		return employeeDaoImpl.updateEmployee(employee);
 	}
 
 	@Override
+	@Transactional
 	public void deleteEmployee(int employeeId) {
-		// TODO Auto-generated method stub
+		employeeDaoImpl.deleteEmployee(employeeId);
 
 	}
 

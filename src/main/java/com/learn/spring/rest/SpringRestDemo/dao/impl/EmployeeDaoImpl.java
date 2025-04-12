@@ -34,21 +34,20 @@ public class EmployeeDaoImpl implements EmployeeDao {
 
 	@Override
 	public Employee getEmployee(int employeeId) {
-		TypedQuery<Employee> theQuery  = (TypedQuery<Employee>) entityManager.createQuery("FROM Employee where id:employeeId", Employee.class);
-		theQuery.setParameter("employeeId", "%"+employeeId);
-		return theQuery.getResultList().get(0);
+		return entityManager.find(Employee.class, employeeId);
 	}
 
 	@Override
-	public void updateEmployee(int employeeId) {
-		// TODO Auto-generated method stub
+	public Employee updateEmployee(Employee employee) {
 
+		Employee dbEmployee = entityManager.merge(employee);
+		return dbEmployee;
 	}
 
 	@Override
 	public void deleteEmployee(int employeeId) {
-		// TODO Auto-generated method stub
-
+		Employee employee =  entityManager.find(Employee.class, employeeId);
+		entityManager.remove(employee);
 	}
 
 }
