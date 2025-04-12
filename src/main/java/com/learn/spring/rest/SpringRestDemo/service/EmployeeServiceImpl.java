@@ -1,51 +1,56 @@
 package com.learn.spring.rest.SpringRestDemo.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.learn.spring.rest.SpringRestDemo.dao.impl.EmployeeDaoImpl;
 import com.learn.spring.rest.SpringRestDemo.pojo.Employee;
-
-import jakarta.transaction.Transactional;
+import com.learn.spring.rest.SpringRestDemo.repository.EmployeeRepository;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
 	
-	private EmployeeDaoImpl employeeDaoImpl;
+	private EmployeeRepository employeeRepository;
 	
 	public EmployeeServiceImpl() {
 		super();
 	}
 	
 	@Autowired
-	public EmployeeServiceImpl(EmployeeDaoImpl employeeDaoImpl) {
+	public EmployeeServiceImpl(EmployeeRepository employeeDaoImpl) {
 		super();
-		this.employeeDaoImpl = employeeDaoImpl;
+		this.employeeRepository = employeeDaoImpl;
 	}
 
 	@Override
 	public List<Employee> getAllEmployee() {
-		return employeeDaoImpl.getAllEmployee();
+		return employeeRepository.findAll();
 	}
 
 	@Override
 	public Employee getEmployee(int employeeId) {
 		//get a single Employee based on Id
-		return employeeDaoImpl.getEmployee(employeeId);
+		Optional<Employee> employee = employeeRepository.findById(employeeId);
+		Employee theEmployee = null;
+		if(employee.isPresent()) {
+			theEmployee = employee.get();
+		}else {
+			throw new RuntimeException("Did not found the employee with Employee Id: "+employeeId);
+		}
+		
+		return theEmployee;
 	}
 
 	@Override
-	@Transactional
 	public Employee updateEmployee(Employee employee) {
-		return employeeDaoImpl.updateEmployee(employee);
+		return employeeRepository.save(employee);
 	}
 
 	@Override
-	@Transactional
 	public void deleteEmployee(int employeeId) {
-		employeeDaoImpl.deleteEmployee(employeeId);
+		employeeRepository.deleteById(employeeId);
 
 	}
 
